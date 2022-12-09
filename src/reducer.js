@@ -13,6 +13,12 @@ const reducer = (state, action) => {
             msgContent: 'CVV too Long'
         }
     }
+    if (action.type === "CLOSE") {
+        return {
+            ...state,
+            msg: false
+        }
+    }
 }
 
 export default reducer
