@@ -17,7 +17,7 @@ body {
 
 main {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  @apply bg-white rounded-lg h-[325px] w-[93vw] max-w-[300px] py-10 px-5 mx-auto;
+  @apply bg-white rounded-lg h-[325px] w-[93vw] max-w-[300px] py-10 px-6 mx-auto;
 }
 
 .expr-cvv {
