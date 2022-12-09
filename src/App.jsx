@@ -2,7 +2,7 @@ function App() {
 
   return (
     <>
-      <p>Greetins - Hello, World!</p>
+      <p>Greetings - Hello, World!</p>
     </>
   )
 }
