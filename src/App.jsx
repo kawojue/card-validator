@@ -40,14 +40,24 @@ function App() {
     setCardNumber(output)
   }
 
+  const handleModal = (cardNumber, cvc) => {
+    if (cardNumber.match(/[a-z]/i) || cvc.match(/[a-z]/i)) {
+      dispatch({ type: 'CN-ERROR' })
+    }
+  }
+
+  useEffect(() => {
+    handleModal(cardNumber, cvc)
+  }, [cardNumber, cvc])
+
   return (
     <main>
       <form onSubmit={e => e.preventDefault()}>
+        {state.msg && <p>{state.msgContent}</p>}
         <div>
           <label>Card Number</label>
           <input type="text" value={cardNumber}
             onChange={(e) => handleCardNumber(e.target.value)} />
-          {state.msg && <p className="text-xs"></p>}
         </div>
         <article className="expr-cvv">
           <div>
@@ -57,7 +67,7 @@ function App() {
           </div>
           <div>
             <label>CVC</label>
-            <input type="text" value={cvc}
+            <input type="text" value={cvc} maxLength={3}
               onChange={(e) => setCVC(e.target.value)} />
           </div>
         </article>
