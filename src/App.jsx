@@ -129,8 +129,6 @@ function App() {
     setCardholderName('')
   }
 
-  console.log(state.info)
-
   return (
     <main>
       <form onSubmit={e => e.preventDefault()}>
