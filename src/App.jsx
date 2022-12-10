@@ -25,8 +25,9 @@ function App() {
       && exprDate && cardholderName)
       && (!cvc.match(/[a-z]/i)
         && !cardNumber.match(/[a-z]/i))
-      && ((cvc.length === 3 || cvc.length === 4)
-        && cardNumber.length === 16 && cardholderName.length >= 5)) {
+      && (cvc.length === 3
+        && cardNumber.length === 16
+        && cardholderName.length >= 5)) {
       return true
     }
     return false
@@ -55,15 +56,15 @@ function App() {
     return parseInt(year.toString().split('').slice(2).join(''))
   }
 
+  const manageInputType = e => {
+    let value = ''
+    if (e.target.value.match(/^\d+$/)) {
+      value += e.target.value
+    }
+    return value
+  }
+
   const handleModal = (cardNumber, cvc, cardholderName, exprDate) => {
-    if (cardNumber.match(/[a-z]/i) || cvc.match(/[a-z]/i)) {
-      dispatch({ type: 'STR-ERR' })
-    }
-
-    if (cvc.length > 4) {
-      dispatch({ type: 'LEN-ERR' })
-    }
-
     if (cardholderName.match(/\d/)) {
       dispatch({ type: 'NAME-ERR' })
     }
@@ -108,7 +109,7 @@ function App() {
         <div>
           <label>Card Number</label>
           <input type="text" value={cardNumber} maxLength={16}
-            onChange={(e) => setCardNumber(e.target.value)} ref={cnRef} />
+            onChange={(e) => setCardNumber(manageInputType(e))} ref={cnRef} />
         </div>
         <article className="expr-cvv">
           <div>
@@ -118,8 +119,8 @@ function App() {
           </div>
           <div>
             <label>CVC</label>
-            <input type="text" value={cvc} maxLength={5}
-              onChange={(e) => setCVC(e.target.value)} />
+            <input type="text" value={cvc} maxLength={3}
+              onChange={(e) => setCVC(manageInputType(e))} />
           </div>
         </article>
         <div className="mt-5">
