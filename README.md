@@ -1,4 +1,4 @@
-# Card Validor
+# Card Validator
 
 $ git clone https://github.com/alwaysappear/card-validator.git
 
