@@ -19,7 +19,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             msg: true,
-            msgContent: 'Card Expired'
+            msgContent: 'Card Expired',
         }
     }
 
@@ -27,7 +27,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             msg: true,
-            msgContent: 'Expiry Date is Invalid'
+            msgContent: 'Expiry Date is Invalid',
         }
     }
 

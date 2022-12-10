@@ -6,7 +6,7 @@ import { useRef, useState, useReducer, useEffect } from 'react'
 const defaultStates = {
   info: [],
   msg: false,
-  msgContent: ''
+  msgContent: '',
 }
 
 function App() {
@@ -22,6 +22,21 @@ function App() {
   const currYear = new Date().getFullYear()
   const [state, dispatch] = useReducer(reducer, defaultStates)
 
+  const getExprDates = (values) => {
+    let arr = []
+    if (values.length === 7) {
+      arr = values.split(' / ')
+    }
+    return {
+      MM: parseInt(arr[0]),
+      YY: parseInt(arr[1])
+    }
+  }
+
+  const formatCurrDate = (date) => {
+    return parseInt(date.toString().split('').slice(2).join(''))
+  }
+
   const isValid = (cvc, cardNumber, exprDate, cardholderName) => {
     if ((cvc && cardNumber
       && exprDate && cardholderName)
@@ -29,7 +44,8 @@ function App() {
         && !cardNumber.match(/[a-z]/i))
       && (cvc.length === 3
         && cardNumber.length === 16
-        && cardholderName.length >= 5)) {
+        && cardholderName.length >= 5
+        && exprDate.length === 7)) {
       return true
     }
     return false
@@ -41,21 +57,6 @@ function App() {
       output += ' / '
     }
     setExprDate(output)
-  }
-
-  const getExprDates = (values) => {
-    let arr = []
-    if (values.length === 7) {
-      arr = values.split(' / ')
-    }
-    return {
-      MM: arr[0],
-      YY: arr[1]
-    }
-  }
-
-  const formatCurrDate = (date) => {
-    return parseInt(date.toString().split('').slice(2).join(''))
   }
 
   const manageInputType = e => {
@@ -75,10 +76,6 @@ function App() {
   }
 
   const handleModal = (cardNumber, cardholderName, exprDate) => {
-    if (cardholderName.match(/\d/)) {
-      dispatch({ type: 'NAME-ERR' })
-    }
-
     if (document.activeElement === cnRef.current) {
       if (cardNumber.length < 16) {
         dispatch({ type: 'CN-ERR' })
@@ -92,17 +89,17 @@ function App() {
     }
 
     if (document.activeElement === exprRef.current) {
-      if (parseInt(getExprDates(exprDate).YY) < formatCurrDate(currYear)) {
+      if (getExprDates(exprDate).YY < formatCurrDate(currYear)) {
         dispatch({ type: 'CARD-EXPR' })
       }
 
-      if (parseInt(getExprDates(exprDate).YY) === formatCurrDate(currYear)) {
-        if (parseInt(getExprDates(exprDate).MM) <= (currMonth + 1)) {
+      if (getExprDates(exprDate).YY === formatCurrDate(currYear)) {
+        if (getExprDates(exprDate).MM <= (currMonth + 1)) {
           dispatch({ type: 'CARD-EXPR' })
         }
       }
 
-      if (parseInt(getExprDates(exprDate).MM) > 12) {
+      if (getExprDates(exprDate).MM > 12) {
         dispatch({ type: 'EXPR-ERR' })
       }
     }
@@ -159,7 +156,7 @@ function App() {
         </div>
         <button type="submit" disabled={!isValid(cvc, cardNumber, exprDate, cardholderName)}
           onClick={() => pay()}
-          className="btn focus:outline-none active:scale-[1.25] hover:bg-blue-400 disabled:bg-[lightblue]">
+          className="btn">
           pay
         </button>
       </form>
