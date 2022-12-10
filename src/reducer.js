@@ -1,28 +1,4 @@
 const reducer = (state, action) => {
-    if (action.type === "STR-ERR") {
-        return {
-            ...state,
-            msg: true,
-            msgContent: 'None must contain Letters'
-        }
-    }
-
-    if (action.type === "LEN-ERR") {
-        return {
-            ...state,
-            msg: true,
-            msgContent: 'CVV too Long'
-        }
-    }
-
-    // if (action.type === "NAME-ERR") {
-    //     return {
-    //         ...state,
-    //         msg: true,
-    //         msgContent: 'Name cannot contain numbers'
-    //     }
-    // }
-
     if (action.type === "CN-ERR") {
         return {
             ...state,
@@ -35,7 +11,15 @@ const reducer = (state, action) => {
         return {
             ...state,
             msg: true,
-            msgContent: 'Invalid name'
+            msgContent: 'Name too short'
+        }
+    }
+
+    if (action.type === "CARD-EXPR") {
+        return {
+            ...state,
+            msg: true,
+            msgContent: 'Card Expired'
         }
     }
 
@@ -43,7 +27,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             msg: true,
-            msgContent: 'Card Expired'
+            msgContent: 'Invalid Dates'
         }
     }
 
