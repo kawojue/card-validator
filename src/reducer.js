@@ -3,7 +3,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             msg: true,
-            msgContent: 'less than 16 numbers'
+            msgContent: 'Card Number must be 16 Digits'
         }
     }
 
@@ -27,7 +27,7 @@ const reducer = (state, action) => {
         return {
             ...state,
             msg: true,
-            msgContent: 'Invalid Dates'
+            msgContent: 'Expiry Date is Invalid'
         }
     }
 
@@ -36,7 +36,7 @@ const reducer = (state, action) => {
             ...state,
             info: action.payload,
             msg: true,
-            msgContent: 'Checking..'
+            msgContent: 'Checking more Validation...'
         }
     }
 
