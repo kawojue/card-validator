@@ -15,11 +15,11 @@ const reducer = (state, action) => {
         }
     }
 
-    if (action.type === "NMAE-ERR") {
+    if (action.type === "NAME-ERR") {
         return {
             ...state,
             msg: true,
-            msgContent: 'CVV too Long'
+            msgContent: 'Name cannot contain numbers'
         }
     }
 
