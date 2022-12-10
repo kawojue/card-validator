@@ -17,7 +17,7 @@ body {
 
 main {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  @apply bg-white rounded-lg h-[325px] w-[93vw] max-w-[300px] py-10 px-6 mx-auto;
+  @apply bg-white rounded-lg h-[325px] w-[93vw] max-w-[300px] pt-5 pb-10 px-6 mx-auto;
 }
 
 .expr-cvv {
@@ -25,7 +25,7 @@ main {
 }
 
 input {
-  @apply bg-transparent border-0 border-b-[2px] border-b-white block w-full px-0 text-[18px];
+  @apply bg-transparent border-0 border-b-[2px] border-b-white block w-full px-0 text-[18px] text-center;
 }
 
 input:focus,
@@ -39,4 +39,8 @@ label {
 
 .btn {
   @apply w-full p-4 bg-blue-600 border-0 rounded-lg shadow-lg text-white tracking-widest text-xl mt-9 capitalize trans;
+}
+
+.err-msg {
+  @apply text-sm text-center text-red-400 tracking-wider font-medium;
 }
