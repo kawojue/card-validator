@@ -38,7 +38,31 @@ label {
 }
 
 .btn {
-  @apply w-full p-4 bg-blue-600 border-0 rounded-lg shadow-lg text-white tracking-widest text-xl mt-9 capitalize trans;
+  @apply w-full p-4 bg-blue-600 border-0 rounded-lg shadow-lg text-white tracking-widest text-xl mt-9 capitalize trans cursor-pointer;
+}
+
+.btn:disabled:active {
+  @apply scale-[1]
+}
+
+.btn:disabled {
+  @apply cursor-not-allowed bg-[lightblue];
+}
+
+.btn:focus {
+  @apply outline-none
+}
+
+.btn:active {
+  @apply scale-[1.25];
+}
+
+.btn:hover {
+  @apply bg-blue-400 text-black
+}
+
+.btn:disabled:hover {
+  @apply bg-[lightblue] text-white
 }
 
 .err-msg {
