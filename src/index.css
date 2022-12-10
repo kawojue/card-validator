@@ -8,7 +8,7 @@ body {
 }
 
 #root {
-  @apply mt-32 mb-14;
+  @apply mt-28 mb-14;
 }
 
 .trans {
@@ -17,15 +17,15 @@ body {
 
 main {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  @apply bg-white rounded-lg h-[325px] w-[93vw] max-w-[300px] pt-5 pb-10 px-6 mx-auto;
+  @apply bg-white rounded-lg h-[360px] w-[93vw] max-w-[325px] pt-5 pb-10 px-6 mx-auto;
 }
 
 .expr-cvv {
-  @apply flex gap-5 mt-9;
+  @apply flex gap-5 mt-5;
 }
 
 input {
-  @apply bg-transparent border-0 border-b-[2px] border-b-white block w-full px-0 text-[18px] text-center;
+  @apply bg-transparent border-0 border-b-[2px] border-b-white block w-full px-0 text-[15px] text-center;
 }
 
 input:focus,
@@ -34,7 +34,7 @@ input:valid {
 }
 
 label {
-  @apply tracking-wider;
+  @apply tracking-wider font-medium;
 }
 
 .btn {
