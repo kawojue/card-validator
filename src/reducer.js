@@ -15,11 +15,35 @@ const reducer = (state, action) => {
         }
     }
 
-    if (action.type === "NAME-ERR") {
+    // if (action.type === "NAME-ERR") {
+    //     return {
+    //         ...state,
+    //         msg: true,
+    //         msgContent: 'Name cannot contain numbers'
+    //     }
+    // }
+
+    if (action.type === "CN-ERR") {
         return {
             ...state,
             msg: true,
-            msgContent: 'Name cannot contain numbers'
+            msgContent: 'less than 16 numbers'
+        }
+    }
+
+    if (action.type === "CHN-ERR") {
+        return {
+            ...state,
+            msg: true,
+            msgContent: 'Invalid name'
+        }
+    }
+
+    if (action.type === "EXPR-ERR") {
+        return {
+            ...state,
+            msg: true,
+            msgContent: 'Card Expired'
         }
     }
 
