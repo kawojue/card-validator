@@ -12,11 +12,13 @@ const defaultStates = {
 function App() {
   const cnRef = useRef(null)
   const chnRef = useRef(null)
+  const exprRef = useRef(null)
   const [cvc, setCVC] = useState('')
   const [exprDate, setExprDate] = useState('')
   const [cardNumber, setCardNumber] = useState('')
   const [cardholderName, setCardholderName] = useState('')
 
+  const currMonth = new Date().getMonth()
   const currYear = new Date().getFullYear()
   const [state, dispatch] = useReducer(reducer, defaultStates)
 
@@ -42,7 +44,7 @@ function App() {
   }
 
   const getExprDates = (values) => {
-    let arr = ['00', '00']
+    let arr = []
     if (values.length === 7) {
       arr = values.split(' / ')
     }
@@ -52,8 +54,8 @@ function App() {
     }
   }
 
-  const formatCurrYear = (year) => {
-    return parseInt(year.toString().split('').slice(2).join(''))
+  const formatCurrDate = (date) => {
+    return parseInt(date.toString().split('').slice(2).join(''))
   }
 
   const manageInputType = e => {
@@ -64,7 +66,15 @@ function App() {
     return value
   }
 
-  const handleModal = (cardNumber, cvc, cardholderName, exprDate) => {
+  const manageCHN = e => {
+    let value = ''
+    if (!e.target.value.match(/^\d+$/)) {
+      value += e.target.value
+    }
+    return value
+  }
+
+  const handleModal = (cardNumber, cardholderName, exprDate) => {
     if (cardholderName.match(/\d/)) {
       dispatch({ type: 'NAME-ERR' })
     }
@@ -80,6 +90,22 @@ function App() {
         dispatch({ type: 'CHN-ERR' })
       }
     }
+
+    if (document.activeElement === exprRef.current) {
+      if (parseInt(getExprDates(exprDate).YY) < formatCurrDate(currYear)) {
+        dispatch({ type: 'CARD-EXPR' })
+      }
+
+      if (parseInt(getExprDates(exprDate).YY) === formatCurrDate(currYear)) {
+        if (parseInt(getExprDates(exprDate).MM) <= (currMonth + 1)) {
+          dispatch({ type: 'CARD-EXPR' })
+        }
+      }
+
+      if (parseInt(getExprDates(exprDate).MM) > 12) {
+        dispatch({ type: 'EXPR-ERR' })
+      }
+    }
   }
 
   const closeModal = () => {
@@ -87,11 +113,14 @@ function App() {
   }
 
   useEffect(() => {
-    handleModal(cardNumber, cvc, cardholderName)
-  }, [cardNumber, cvc, cardholderName, exprDate])
+    handleModal(cardNumber, cardholderName, exprDate)
+  }, [cardNumber, cardholderName, exprDate])
 
   const pay = () => {
-    const newInfo = { cardNumber, cvc, cardholderName, exprDate }
+    const newInfo = {
+      cardNumber, cardholderName,
+      cvc, exprDate: getExprDates(exprDate)
+    }
     dispatch({ type: 'PAY', payload: newInfo })
 
     setCVC('')
@@ -99,6 +128,8 @@ function App() {
     setCardNumber('')
     setCardholderName('')
   }
+
+  console.log(state.info)
 
   return (
     <main>
@@ -115,7 +146,7 @@ function App() {
           <div>
             <label>MM / YY</label>
             <input type="text" maxLength={7} value={exprDate}
-              onChange={(e) => handleExprDate(e.target.value)} />
+              onChange={(e) => handleExprDate(e.target.value)} ref={exprRef} />
           </div>
           <div>
             <label>CVC</label>
@@ -126,7 +157,7 @@ function App() {
         <div className="mt-5">
           <label>Cardholder Name</label>
           <input type="text" value={cardholderName}
-            onChange={(e) => setCardholderName(e.target.value)} ref={chnRef} />
+            onChange={(e) => setCardholderName(manageCHN(e))} ref={chnRef} />
         </div>
         <button type="submit" disabled={!isValid(cvc, cardNumber, exprDate, cardholderName)}
           onClick={() => pay()}
