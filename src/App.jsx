@@ -22,7 +22,7 @@ function App() {
           <label>Card Number</label>
           <input type="text" value={cardNumber}
             onChange={(e) => setCardNumber(manageInputType(e))}
-            ref={cnRef} maxLength={16} />
+            ref={cnRef} maxLength={16} className="tracking-widest" />
         </div>
         <article className="expr-cvv">
           <div>
