@@ -1,15 +1,18 @@
-import reducer from "./reducer"
-import { useRef, useState, useEffect, useReducer, createContext } from 'react'
+import reducer from './reducer'
+import {
+    createContext, useReducer,
+    useRef, useState, useEffect
+} from 'react'
+
+const defaultStates = {
+    info: [],
+    msg: false,
+    msgContent: '',
+}
 
 const Context = createContext({})
 
 export const DataProvider = ({ children }) => {
-    const defaultStates = {
-        info: [],
-        msg: false,
-        msgContent: '',
-    }
-
     const cnRef = useRef(null)
     const chnRef = useRef(null)
     const exprRef = useRef(null)
@@ -137,8 +140,16 @@ export const DataProvider = ({ children }) => {
 
     return (
         <Context.Provider value={{
+            state, cvc, setCVC,
+            exprDate, cnRef, chnRef,
+            exprRef, cardNumber, isValid,
+            cardholderName, setCardholderName,
+            setCardNumber, handleExprDate, pay,
+            manageCHN, manageInputType, closeModal
         }}>
             {children}
         </Context.Provider>
     )
 }
+
+export default Context
