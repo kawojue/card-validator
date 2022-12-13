@@ -37,6 +37,25 @@ function App() {
     return parseInt(date.toString().split('').slice(2).join(''))
   }
 
+  const manageCardExpr = (expr) => {
+    let obj = { valid: true, type: '' }
+    if (getExprDates(expr).YY < formatCurrDate(currYear)) {
+      obj = { valid: false, type: 'CARD-EXPR' }
+    }
+
+    if (getExprDates(expr).YY === formatCurrDate(currYear)) {
+      if (getExprDates(expr).MM <= (currMonth + 1)) {
+        obj = { valid: false, type: 'CARD-EXPR' }
+
+      }
+    }
+
+    if (getExprDates(expr).MM > 12) {
+      obj = { valid: false, type: 'EXPR-ERR' }
+    }
+    return obj
+  }
+
   const isValid = (cvc, cardNumber, exprDate, cardholderName) => {
     if ((cvc && cardNumber
       && exprDate && cardholderName)
@@ -45,7 +64,7 @@ function App() {
       && (cvc.length === 3
         && cardNumber.length === 16
         && cardholderName.length >= 5
-        && exprDate.length === 7)) {
+        && exprDate.length === 7) && manageCardExpr(exprDate).valid) {
       return true
     }
     return false
@@ -89,18 +108,8 @@ function App() {
     }
 
     if (document.activeElement === exprRef.current) {
-      if (getExprDates(exprDate).YY < formatCurrDate(currYear)) {
-        dispatch({ type: 'CARD-EXPR' })
-      }
-
-      if (getExprDates(exprDate).YY === formatCurrDate(currYear)) {
-        if (getExprDates(exprDate).MM <= (currMonth + 1)) {
-          dispatch({ type: 'CARD-EXPR' })
-        }
-      }
-
-      if (getExprDates(exprDate).MM > 12) {
-        dispatch({ type: 'EXPR-ERR' })
+      if (!manageCardExpr(exprDate).valid) {
+        dispatch({ type: manageCardExpr(exprDate).type })
       }
     }
   }
@@ -108,10 +117,6 @@ function App() {
   const closeModal = () => {
     dispatch({ type: 'CLOSE' })
   }
-
-  useEffect(() => {
-    handleModal(cardNumber, cardholderName, exprDate)
-  }, [cardNumber, cardholderName, exprDate])
 
   const pay = () => {
     const newInfo = {
@@ -126,6 +131,10 @@ function App() {
     setCardholderName('')
   }
 
+  useEffect(() => {
+    handleModal(cardNumber, cardholderName, exprDate)
+  }, [cardNumber, cardholderName, exprDate])
+
   return (
     <main>
       <form onSubmit={e => e.preventDefault()}>
@@ -134,8 +143,9 @@ function App() {
         </div>
         <div>
           <label>Card Number</label>
-          <input type="text" value={cardNumber} maxLength={16}
-            onChange={(e) => setCardNumber(manageInputType(e))} ref={cnRef} />
+          <input type="text" value={cardNumber}
+            onChange={(e) => setCardNumber(manageInputType(e))}
+            ref={cnRef} maxLength={16} />
         </div>
         <article className="expr-cvv">
           <div>
@@ -151,12 +161,11 @@ function App() {
         </article>
         <div className="mt-5">
           <label>Cardholder Name</label>
-          <input type="text" value={cardholderName}
-            onChange={(e) => setCardholderName(manageCHN(e))} ref={chnRef} />
+          <input type="text" value={cardholderName} ref={chnRef}
+            onChange={(e) => setCardholderName(manageCHN(e))} />
         </div>
-        <button type="submit" disabled={!isValid(cvc, cardNumber, exprDate, cardholderName)}
-          onClick={() => pay()}
-          className="btn">
+        <button type="submit" onClick={() => pay()} className="btn"
+          disabled={!isValid(cvc, cardNumber, exprDate, cardholderName)}>
           pay
         </button>
       </form>
