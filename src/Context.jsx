@@ -140,7 +140,7 @@ export const DataProvider = ({ children }) => {
 
     return (
         <Context.Provider value={{
-            state, cvc, setCVC,
+            ...state, cvc, setCVC,
             exprDate, cnRef, chnRef,
             exprRef, cardNumber, isValid,
             cardholderName, setCardholderName,
