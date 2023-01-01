@@ -4,8 +4,8 @@ import { useContext } from 'react'
 
 function App() {
   const {
-    state, cvc, setCVC,
     exprDate, cnRef, chnRef,
+    msg, cvc, setCVC, msgContent,
     exprRef, cardNumber, isValid,
     cardholderName, setCardholderName,
     setCardNumber, handleExprDate, pay,
@@ -16,7 +16,7 @@ function App() {
     <main>
       <form onSubmit={e => e.preventDefault()}>
         <div className="w-full h-5 mb-3">
-          {state.msg && <Modal close={closeModal} msg={state.msgContent} />}
+          {msg && <Modal close={closeModal} msg={msgContent} />}
         </div>
         <div>
           <label>Card Number</label>
