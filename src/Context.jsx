@@ -32,7 +32,7 @@ export const DataProvider = ({ children }) => {
         }
         return {
             MM: parseInt(arr[0]),
-            YY: parseInt(arr[1])
+            YY: parseInt(arr[1]),
         }
     }
 
