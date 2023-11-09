@@ -5,9 +5,9 @@ import ReactDOM from 'react-dom/client'
 import { DataProvider } from './Context'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <React>
     <DataProvider>
       <App />
     </DataProvider>
-  </React.StrictMode>,
+  </React>,
 )
